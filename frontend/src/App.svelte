@@ -61,7 +61,7 @@
         <p>{article.snippet}</p>
         <small>{article.published.toLocaleDateString()}</small>
         <div style="height: 1rem;"></div>
-        <img class="article-img" src={article.thumbnail_url} alt={article.thumbnail_cap}>
+        <img class="article-img" src={article.img_url} alt={article.img_cap}>
       </article>
     {/each}
   </div>
