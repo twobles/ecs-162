@@ -1,0 +1,9 @@
+.venv
+.vscode/
+.dockerignore
+.env
+.env.dev
+.env.prod
+Dockerfile.prod
+docker-compose.dev.yml
+docker-compose.prod.yml
