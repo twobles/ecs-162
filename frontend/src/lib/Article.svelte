@@ -5,14 +5,28 @@
     url: string;
     snippet: string;
     published: Date;
+    thumbnail_cap: string;
+    thumbnail_url: string;
+    thumbnail_height: number;
+    thumbnail_width: number;
   }
 
   // https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get
   interface Docs {
-    headline: { main: string  };
+    headline: { 
+      main: string  
+    };
     web_url: string;
     snippet: string;
     pub_date: string;
+    multimedia: {
+      caption: string;
+      default: {
+        url: string,
+        height: number,
+        width: number
+      };
+    };
   }
 
   interface Response {
@@ -41,7 +55,11 @@
       headline: doc.headline.main,
       url: doc.web_url,
       snippet: doc.snippet,
-      published: new Date(doc.pub_date)
+      published: new Date(doc.pub_date),
+      thumbnail_cap: doc.multimedia.caption,
+      thumbnail_url: doc.multimedia.default.url,
+      thumbnail_height: doc.multimedia.default.height,
+      thumbnail_width: doc.multimedia.default.width
     }));
   }
 </script>

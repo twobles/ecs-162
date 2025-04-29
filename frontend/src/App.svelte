@@ -60,6 +60,8 @@
         <h2><a href={article.url} target="_blank" rel="noopener noreferrer">{article.headline}</a></h2>
         <p>{article.snippet}</p>
         <small>{article.published.toLocaleDateString()}</small>
+        <div style="height: 1rem;"></div>
+        <img class="article-img" src={article.thumbnail_url} alt={article.thumbnail_cap}>
       </article>
     {/each}
   </div>
