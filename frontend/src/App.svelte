@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import type { Article } from './lib/Article.svelte';
+  import { fetchArticles } from './lib/Article.svelte';
   import NYTHead from './assets/NewYorkTimesHead.png'
   import Article1Img from './assets/Article1.jpeg'
   import Article2Img from './assets/Article2.jpg'
@@ -17,11 +19,19 @@
     year: 'numeric'
   })
 
+  let articles: Article[] = [];
+
   onMount(async () => {
     try {
       const res = await fetch('/api/key');
       const data = await res.json();
       apiKey = data.apiKey;
+
+      try {
+        articles = await fetchArticles(apiKey);
+      } catch (e) {
+        console.log((e as Error).message);
+      }
     } catch (error) {
       console.error('Failed to fetch API key:', error);
     }
