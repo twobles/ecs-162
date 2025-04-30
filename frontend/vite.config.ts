@@ -24,4 +24,8 @@ export default defineConfig(({ mode }) => ({
       },
     } : undefined),
   },
+  test: {
+    globals: true,
+    enviornment: 'jsdom',
+  },
 }))

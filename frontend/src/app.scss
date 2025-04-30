@@ -1,3 +1,12 @@
+@use "sass:color";
+
+// Variables
+$heading-font: 'Helvetica Neue', Helvetica, Arial, Helvetica, sans-serif;
+$article-font: Georgia, 'Times New Roman', Times, serif;
+$headline-font: 'Playfair Display', Georgia, serif;
+$border-color: #d9d9d9;
+
+// HEADING
 header {
   width: 77%;
   margin: auto;
@@ -13,7 +22,7 @@ header {
 }
 
 .page-info {
-  font-family: "Helvetica Neue", Helvetica, Arial, Helvetica, sans-serif;
+  font-family: $heading-font;
   font-size: 14px;
   position: absolute;
   top: 6%;
@@ -28,17 +37,19 @@ header {
 nav {
   align-items: center;
   padding: 20px;
-}
-nav ul {
-  font-family: "Helvetica Neue", Helvetica, Arial, Helvetica, sans-serif;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-nav ul li {
-  margin-left: 30px;
+
+  ul {
+    font-family: $heading-font;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+
+    li {
+      margin-left: 30px;
+    }
+  }
 }
 
 hr {
@@ -51,78 +62,95 @@ hr {
   margin: auto;
 }
 
+// ARTICLE COLUMNS
 .column-container {
   display: grid;
   padding: 20px;
   width: 80%;
   margin: auto;
-}
-.column-container .column {
-  padding: 20px;
-  padding-top: 0%;
-  border-right: 1px solid #d9d9d9;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: gray;
-  line-height: 1.6;
-  font-size: 1rem;
+
+  .column {
+    padding: 20px;
+    padding-top: 0%;
+    border-right: 1px solid $border-color;
+    font-family: $article-font
+;
+    color: gray;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
 }
 
 h2 {
-  font-family: "Playfair Display", Georgia, serif;
+  font-family: $headline-font;
   letter-spacing: -0.5px;
   font-size: 1.75rem;
   color: black;
   margin: 0;
-}
-h2 a {
-  color: inherit;
-  text-decoration: none;
-}
-h2 a:hover {
-  color: #4d4d4d;
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+        color: color.adjust(gray, $lightness: -20%)
+    }
+  }
 }
 
 .article-img {
   max-width: 95%;
 }
 
+// MEDIA QUERIES
+
+// Desktop: width >1024px
 @media (min-width: 1024px) {
   .column-container {
     grid-template-columns: repeat(3, 1fr);
-  }
-  .column-container .column:nth-child(3n) {
-    border-right: none;
+
+    .column:nth-child(3n) {
+      border-right: none;
+    }
   }
 }
+
+// Tablet: width >768px and <1024px
 @media (min-width: 768px) and (max-width: 1024px) {
   .column-container {
     grid-template-columns: repeat(2, 1fr);
+
+    .column:nth-child(even) {
+      border-right: none;
+    }
   }
-  .column-container .column:nth-child(even) {
-    border-right: none;
-  }
+
   .nyt-logo {
     padding: 4%;
   }
-  .page-info,
-  nav {
-    display: none;
-  }
-}
-@media (max-width: 768px) {
-  .column-container {
-    grid-template-columns: repeat(1, 1fr);
-  }
-  .column-container .column {
-    border-right: none;
-  }
-  .nyt-logo {
-    padding: 4%;
-  }
+
   .page-info,
   nav {
     display: none;
   }
 }
 
-/*# sourceMappingURL=app.css.map */
+// Mobile: width <768px
+@media (max-width: 768px) {
+  .column-container {
+    grid-template-columns: repeat(1, 1fr);
+
+    .column {
+      border-right: none;
+    }
+  }
+
+  .nyt-logo {
+    padding: 4%;
+  }
+
+  .page-info,
+  nav {
+    display: none;
+  }
+}
