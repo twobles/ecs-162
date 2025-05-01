@@ -1,8 +1,7 @@
 import { render } from 'svelte/server';
 import { vi, test, expect, beforeEach, describe } from 'vitest';
 import App from './App.svelte'
-import fetchApiKey from './App.svelte'
-import {JSDOM} from 'jsdom'
+import { JSDOM } from 'jsdom'
 
 
 // TEST 1 : Test App Loads
@@ -60,10 +59,3 @@ describe('App Component - Mobile Responsiveness', () => {
 });
 
 
-// TEST 3 : make sure fetchArticles returns formatted articles 
-test('fetchAPI returns api Key', async () => {
-  const apiKey = await fetchApiKey();
-
-  expect(apiKey).not.NaN;
-  console.log(apiKey)
-});
