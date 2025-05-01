@@ -33,6 +33,25 @@
     };
   }
 
+  export async function fetchApiKey(): Promise<string | null> {
+    let apiKey: string = '';
+    try {
+      const res = await fetch('/api/key');
+      console.log(res);
+      if (!res.ok) {
+        console.error('Failed to fetch API key. Status:', res.status);
+        return null;
+      }
+      const data = await res.json();
+      apiKey = data.apiKey;
+      return apiKey;
+    } catch (error) {
+      console.error('Failed to fetch API key:', error);
+      return null;
+    }
+}
+
+
   /**
    * Fetches articles in the Sacramento area
    * 

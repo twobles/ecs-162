@@ -1,10 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { Article } from './lib/Article.svelte';
-  import { fetchArticles } from './lib/Article.svelte';
+  import { fetchApiKey, fetchArticles } from './lib/Article.svelte';
   import NYTHead from './assets/NewYorkTimesHead.png'
 
-  let apiKey: string = '';
 
   let date: string = new Date().toLocaleDateString(undefined, {
     weekday: 'long',
@@ -16,18 +15,16 @@
   let articles: Article[] = [];
 
   onMount(async () => {
-    try {
-      const res = await fetch('/api/key');
-      const data = await res.json();
-      apiKey = data.apiKey;
-
+    const apiKey = await fetchApiKey();
+    if (apiKey) {
       try {
         articles = await fetchArticles(apiKey);
       } catch (e) {
-        console.log((e as Error).message);
+        console.error('Failed to fetch articles:', (e as Error).message);
       }
-    } catch (error) {
-      console.error('Failed to fetch API key:', error);
+    } else {
+      console.error('API key was not fetched, cannot fetch articles.');
+      articles = [];
     }
   });
 </script>

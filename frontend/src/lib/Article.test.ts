@@ -1,6 +1,9 @@
-import { fetchArticles } from './Article.svelte';
-import { vi, test, expect, beforeEach } from 'vitest';
+import { render } from 'svelte/server';
+import { fetchApiKey, fetchArticles } from './Article.svelte';
+import App from '../App.svelte';
+import { vi, test, expect, beforeEach, describe } from 'vitest';
 
+// TEST 1 : make sure fetchArticles returns formatted articles 
 const mockResponse = {
   response: {
     docs: [
@@ -43,4 +46,24 @@ test('fetchArticles returns formatted articles', async () => {
     img_cap: "Image caption",
     img_url: "https://example.com/image.jpg",
   });
+});
+
+// TEST 2 : make sure fetchArticles returns formatted articles for frontend
+test('fetchAPI returns a non-null apiKey to the frontEnd', async () => {
+  // Mock the global fetch function to return a successful response with an apiKey
+  globalThis.fetch = vi.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ apiKey: 'any-non-null-key' }),
+    } as Response)
+  ) as unknown as typeof fetch;
+
+  const apiKey = await fetchApiKey();
+
+  expect(apiKey).not.toBeNull();
+  console.log('Fetched apiKey:', apiKey);
+
+  expect(apiKey).toBeTypeOf('string');
+
+  expect(globalThis.fetch).toHaveBeenCalledWith('/api/key');
 });
