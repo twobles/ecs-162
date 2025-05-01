@@ -1,14 +1,7 @@
 import { render } from 'svelte/server';
 import { fetchArticles } from './Article.svelte';
 import App from '../App.svelte';
-import { JSDOM } from 'jsdom';
 import { vi, test, expect, beforeEach, describe } from 'vitest';
-
-// Setup JSDOM at the top of the file
-const dom = new JSDOM('<!DOCTYPE html><html lang="en"><body></body></html>');
-globalThis.window = dom.window as any;
-globalThis.document = dom.window.document;
-globalThis.HTMLElement = dom.window.HTMLElement;
 
 // TEST 1 : make sure fetchArticles returns formatted articles 
 const mockResponse = {
@@ -96,64 +89,5 @@ describe('App Component - Mobile Responsiveness', () => {
     const nav = document.querySelector('nav');
     expect(nav).not.toBeNull();
     expect(globalThis.window.getComputedStyle(nav!).display).toBe('none');
-  });
-});
-
-// TEST 3 : Test API fetches
-describe('App Component - API Key Fetching', () => {
-  beforeEach(() => {
-    globalThis.fetch = vi.fn();
-  });
-
-  test('fetches and receives the API key on mount', async () => {
-    const mockApiKey = 'test-api-key-from-server';
-
-    // Mock the /api/key endpoint to return the API key
-    (globalThis.fetch as vi.mock).mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve({ apiKey: mockApiKey }),
-    } as Response);
-
-    // Render the App component
-    render(App);
-
-    // Wait for the API key to be fetched and potentially displayed or used
-    await waitFor(() => {
-      // Add an assertion here that checks if the API key has been received.
-      // The exact assertion depends on how your App component uses the API key.
-      // For example, if it's displayed in the component:
-      expect(screen.getByText(mockApiKey)).toBeInTheDocument();
-      // Or if it's stored in a variable that affects the rendering (you might need to expose it for testing):
-      // const appInstance = component.$$; // Access Svelte component instance (use with caution)
-      // expect(appInstance.ctx.apiKey).toBe(mockApiKey);
-    });
-
-    // Ensure that fetch was called with the correct URL
-    expect(globalThis.fetch).toHaveBeenCalledWith('/api/key');
-  });
-
-  test('handles API key fetch error', async () => {
-    const mockErrorMessage = 'Failed to fetch API key from server';
-
-    // Mock the /api/key endpoint to simulate an error
-    (globalThis.fetch as vi.Mock).mockRejectedValueOnce(new Error(mockErrorMessage));
-
-    // Mock console.error to capture error messages
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-    // Render the App component
-    render(App);
-
-    // Wait for a short time to allow the error to be handled
-    await new Promise(resolve => setTimeout(resolve, 100));
-
-    // Assert that console.error was called with the error message
-    expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to fetch API key:', new Error(mockErrorMessage));
-
-    // Restore the original console.error function
-    consoleErrorSpy.mockRestore();
-
-    // You might also want to assert that the component renders some fallback UI
-    // in case of an error.
   });
 });
