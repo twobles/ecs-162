@@ -15,7 +15,7 @@
 
   let articles: Article[] = [];
 
-  onMount(async () => {
+  async function fetchApiKey() {
     try {
       const res = await fetch('/api/key');
       const data = await res.json();
@@ -29,7 +29,8 @@
     } catch (error) {
       console.error('Failed to fetch API key:', error);
     }
-  });
+  }
+  onMount(fetchApiKey);
 </script>
 
 <main>
