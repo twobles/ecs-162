@@ -32,17 +32,17 @@ describe('App Component - Mobile Responsiveness', () => {
     }));
 
     // Render the App component using svelte/server
-    const { html } = await render(App, {}); // Pass empty props if App doesn't need any for rendering layout
-    document.body.innerHTML = html; // Set the rendered HTML into JSDOM
+    const { html } = await render(App, {});
+    document.body.innerHTML = html; 
 
-    // Assert mobile-specific styles using DOM queries and Vitest's expect
+    console.log(document.body.innerHTML)
     const columnContainer = document.querySelector('.column-container');
-    expect(columnContainer).not.toBeNull();
+    expect(columnContainer).not.toBeNull();    
     if (columnContainer) {
       const computedStyle = globalThis.window.getComputedStyle(columnContainer);
-      expect(computedStyle.gridTemplateColumns).toBe('1fr'); // Check for single column
+      console.log("COMPUTEDSTYLE:", computedStyle)
+      expect(computedStyle.gridTemplateColumns).toBe('1fr');
     }
-
 
     const firstArticle = document.querySelector('.column-container .column');
     expect(firstArticle).not.toBeNull();
