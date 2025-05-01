@@ -9,13 +9,44 @@ test('App', async () => {
     render(App);
 });
 
-// // TEST 2 : Test MediaQueries for Mobile Responsiveness
+test('DateTime is accurate', async () => {
 
-// // Setup JSDOM at the top of the file
-// const dom = new JSDOM('<!DOCTYPE html><html lang="en"><body></body></html>');
-// globalThis.window = dom.window as any;
-// globalThis.document = dom.window.document;
-// globalThis.HTMLElement = dom.window.HTMLElement;
+});
+
+// TEST 2 : Test Date component
+// Setup JSDOM
+const dom = new JSDOM('<!DOCTYPE html><html lang="en"><body></body></html>');
+globalThis.window = dom.window as any;
+globalThis.document = dom.window.document;
+globalThis.HTMLElement = dom.window.HTMLElement;
+
+describe('App Component - Date matches today', () => {
+  test('renders the correct current date', async () => {
+    const today = new Date();
+    const expectedDate = today.toLocaleDateString(undefined, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    const { html } = await render(App, {});
+    document.body.innerHTML = html;
+
+    console.log(document.body.innerHTML);
+    const pageDateElement = document.querySelector('.page-date');
+    expect(pageDateElement).not.toBeNull();
+
+    if (pageDateElement) {
+      expect(pageDateElement.textContent).toBe(expectedDate);
+    } else {
+      console.error('.page-date element not found in the rendered HTML.');
+    }
+  });
+});
+
+
+// // TEST 3 : Test MediaQueries for Mobile Responsiveness
 
 // describe('App Component - Mobile Responsiveness', () => {
 //   test('renders with mobile-specific styles when screen width is max 768px', async () => {
@@ -57,5 +88,6 @@ test('App', async () => {
 //     expect(globalThis.window.getComputedStyle(nav!).display).toBe('none');
 //   });
 // });
+
 
 
