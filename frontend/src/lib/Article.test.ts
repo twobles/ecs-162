@@ -33,7 +33,7 @@ beforeEach(() => {
 });
 
 test('fetchArticles returns formatted articles', async () => {
-  const articles = await fetchArticles('fake-api-key');
+  const articles = await fetchArticles('fake-api-key', 0);
 
   expect(articles).toHaveLength(1);
   expect(articles[0]).toEqual({
