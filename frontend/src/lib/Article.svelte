@@ -32,12 +32,16 @@
       docs: Docs[];
     };
   }
-
+  /**
+   * Fetches api key
+   * 
+   * @param None
+   * @returns A string api key
+   */
   export async function fetchApiKey(): Promise<string> {
     let apiKey: string = '';
     try {
       const res = await fetch('/api/key');
-      console.log(res);
       if (!res.ok) {
         console.error('Failed to fetch API key. Status:', res.status);
         return '';
@@ -62,7 +66,7 @@
 
     const response = await fetch(url);
     if (!response.ok) {
-      console.log('Failed to fetch articles: ' + response.statusText);
+      console.error('Failed to fetch articles: ' + response.statusText);
     }
 
     const data: Response = await response.json();

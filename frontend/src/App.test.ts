@@ -33,7 +33,6 @@ describe('App Component - Date matches today', () => {
     const { html } = await render(App, {});
     document.body.innerHTML = html;
 
-    console.log(document.body.innerHTML);
     const pageDateElement = document.querySelector('.page-date');
     expect(pageDateElement).not.toBeNull();
 
