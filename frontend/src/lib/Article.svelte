@@ -33,24 +33,23 @@
     };
   }
 
-  export async function fetchApiKey(): Promise<string | null> {
+  export async function fetchApiKey(): Promise<string> {
     let apiKey: string = '';
     try {
       const res = await fetch('/api/key');
       console.log(res);
       if (!res.ok) {
         console.error('Failed to fetch API key. Status:', res.status);
-        return null;
+        return '';
       }
       const data = await res.json();
       apiKey = data.apiKey;
       return apiKey;
     } catch (error) {
       console.error('Failed to fetch API key:', error);
-      return null;
+      return '';
     }
-}
-
+  }
 
   /**
    * Fetches articles in the Sacramento area
@@ -58,8 +57,8 @@
    * @param api_key - Key to access the NYT API
    * @returns An array of articles formatted as Article
    */
-  export async function fetchArticles(api_key: string): Promise<Article[]> {
-    const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?&fq=timesTag.location%3A"Sacramento (Calif)"&api-key=${api_key}`;
+  export async function fetchArticles(api_key: string, page: number): Promise<Article[]> {
+    const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?&fq=timesTag.location%3A"Sacramento%20(Calif)"&page=${page}&sort=newest&api-key=${api_key}`;
 
     const response = await fetch(url);
     if (!response.ok) {

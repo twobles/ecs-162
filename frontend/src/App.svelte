@@ -12,13 +12,25 @@
     year: 'numeric'
   })
 
+  let apiKey: string = ''
   let articles: Article[] = [];
+  let page: number = 0;
+
+  async function updateOnScroll(): Promise<void> {
+    const bottomOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+    if (bottomOfPage) {
+      page += 1;
+      let newArticles = await fetchArticles(apiKey, page);
+      articles = [...articles, ...newArticles]
+    }
+  }
 
   onMount(async () => {
-    const apiKey = await fetchApiKey();
+    apiKey = await fetchApiKey();
     if (apiKey) {
       try {
-        articles = await fetchArticles(apiKey);
+        let newArticles = await fetchArticles(apiKey, page);
+        articles = [...articles, ...newArticles]
       } catch (e) {
         console.error('Failed to fetch articles:', (e as Error).message);
       }
@@ -26,6 +38,7 @@
       console.error('API key was not fetched, cannot fetch articles.');
       articles = [];
     }
+    window.addEventListener('scroll', updateOnScroll);
   });
 </script>
 

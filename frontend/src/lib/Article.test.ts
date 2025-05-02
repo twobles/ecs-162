@@ -1,6 +1,4 @@
-import { render } from 'svelte/server';
 import { fetchApiKey, fetchArticles } from './Article.svelte';
-import App from '../App.svelte';
 import { vi, test, expect, beforeEach, describe } from 'vitest';
 
 // TEST 1 : make sure fetchArticles returns formatted articles 
