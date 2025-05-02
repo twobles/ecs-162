@@ -59,7 +59,6 @@ test('fetchAPI returns a non-null apiKey to the frontEnd', async () => {
   const apiKey = await fetchApiKey();
 
   expect(apiKey).not.toBeNull();
-  console.log('Fetched apiKey:', apiKey);
 
   expect(apiKey).toBeTypeOf('string');
 
