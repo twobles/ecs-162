@@ -46,7 +46,7 @@ test('fetchArticles returns formatted articles', async () => {
   });
 });
 
-// TEST 2 : make sure fetchArticles returns formatted articles for frontend
+// TEST 2 : make sure fetchAPI function returns a proper api Key
 test('fetchAPI returns a non-null apiKey to the frontEnd', async () => {
   // Mock the global fetch function to return a successful response with an apiKey
   globalThis.fetch = vi.fn(() =>
