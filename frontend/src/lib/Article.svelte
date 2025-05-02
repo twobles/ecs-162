@@ -58,7 +58,7 @@
    * @returns An array of articles formatted as Article
    */
   export async function fetchArticles(api_key: string, page: number): Promise<Article[]> {
-    const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?&fq=timesTag.location%3A"Sacramento%20(Calif)"&page=${page}&sort=newest&api-key=${api_key}`;
+    const url = `https://api.nytimes.com/svc/search/v2/articlesearch.json?&fq=timesTag.location%3A("Sacramento%20(Calif)" OR "Davis%20(Calif)" OR "Davis")&page=${page}&sort=newest&api-key=${api_key}`;
 
     const response = await fetch(url);
     if (!response.ok) {
