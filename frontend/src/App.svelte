@@ -17,7 +17,7 @@
   let page: number = 0;
 
   async function updateOnScroll(): Promise<void> {
-    const bottomOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+    const bottomOfPage = window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
     if (bottomOfPage) {
       page += 1;
       let newArticles = await fetchArticles(apiKey, page);
